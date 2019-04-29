@@ -31,7 +31,7 @@ class HJBConfig(Config):
     lr_boundaries = [400]
     num_iterations = 6000
     lr_values = list(np.array([1e-2, 1e-2]))
-    num_hiddens = [dim, dim+20, dim+20, dim]
+    num_hiddens = [dim, dim+10, dim+10,dim+10, dim]
     y_init_range = [2, 3]
 
 
