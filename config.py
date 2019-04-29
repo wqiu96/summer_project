@@ -29,7 +29,7 @@ class HJBConfig(Config):
     total_time = 1.0
     num_time_interval = 20
     lr_boundaries = [400]
-    num_iterations = 5000
+    num_iterations = 6000
     lr_values = list(np.array([1e-2, 1e-2]))
     num_hiddens = [dim, dim+10, dim+10, dim]
     y_init_range = [0, 1]
