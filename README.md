@@ -5,4 +5,6 @@
 - solve n-dimensions HJB function(circular boundary) [-ipynb](src/value_iter_dirichlet_1d_v03.ipynb)
 ## Using Dynamic Programming to Solve PDE(GPU)
 - solve n-dimensions HJB function(Square boundary) [-ipynb](src/value_iter_dirichlet_GPU.ipynb)
-- Preparations for running on HPC [-ipynb](src/value_iter_dirichlet_GPU_3d(for_HPC).ipynb)
+- Preparations for running on HPC [-py](src/value_iter_dirichlet_gpu_3d_for_hpc.py)
+## Multithread Attempt
+- calculate PI 
