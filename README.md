@@ -7,4 +7,4 @@
 - solve n-dimensions HJB function(Square boundary) [-ipynb](src/value_iter_dirichlet_GPU.ipynb)
 - Preparations for running on HPC [-py](src/value_iter_dirichlet_gpu_3d_for_hpc.py)
 ## Multithread Attempt
-- calculate PI 
+- calculate PI [-ipynb](src/multiprocess_pi.ipynb)
