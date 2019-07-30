@@ -214,6 +214,7 @@ X1 = pde1.x_space
 X2 = pde1.x_space
 X3 = pde1.x_space
 Z1 = pde1.s_val
+X1,X2,X3 = np.meshgrid(X1,X2,X3)
 Z = -(X1)**2 - (X2)**2 - (X3)**2
 print('>>>iteration error is ' + str(err))
 print('>>>iter number is ' + str(n_iter))
