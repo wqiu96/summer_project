@@ -9,4 +9,5 @@
 ## Multithread Attempt
 - calculate PI [-ipynb](src/multiprocess_pi.ipynb)
 ## Using Q-learning to Solve PDE
-- solve n-dimensions HJB function(CPU)
+- solve n-dimensions HJB function(CPU) -[ipynb](src/Q_learning_dirichlet_2d_v01.ipynb)
+- solve n-dimensions HJB function(GPU) -[ipynb](src/Q_learning_dirichlet_2d_vGPU.ipynb)
