@@ -8,3 +8,5 @@
 - Preparations for running on HPC [-py](src/value_iter_dirichlet_gpu_3d_for_hpc.py)
 ## Multithread Attempt
 - calculate PI [-ipynb](src/multiprocess_pi.ipynb)
+## Using Q-learning to Solve PDE
+- solve n-dimensions HJB function(CPU)
