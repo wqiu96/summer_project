@@ -82,7 +82,7 @@ class pde():
 
     tp.append(Lambda*((b_*self.h + self.diagonal(self.sigma))/(2*c1*self.h**2)))
     tp.append(Lambda*((-1*b_*self.h + self.diagonal(self.sigma))/(2*c1*self.h**2)))
-    tp1.append(self.sigma/(8*c1*self.h**2))
+    tp1.append(Lambda*self.sigma/(8*c1*self.h**2))
 
     return tp,tp1
   
