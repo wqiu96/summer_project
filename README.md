@@ -11,3 +11,5 @@
 ## Using Q-learning to Solve PDE
 - solve n-dimensions HJB function(CPU) -[ipynb](src/Q_learning_dirichlet_2d_v01.ipynb)
 - solve n-dimensions HJB function(GPU) -[ipynb](src/Q_learning_dirichlet_2d_vGPU.ipynb)
+## New model + Multiprocess
+- 1-dimension -[ipynb](src/multiprocessing_GPU_try.ipynb)
