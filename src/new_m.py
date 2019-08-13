@@ -176,6 +176,7 @@ class pde():
           break
         n += 1
     
+    
   def value_iter(self):
     
     if (self.q_table ==  np.zeros(self.q_table.shape)).all():
@@ -198,7 +199,7 @@ class pde():
             k += 1
           if (np.min(s_index) == 0) or (np.max(s_index) == (self.x_space.size - 1)):
             continue
-          for j in range(self.a_space.size**self.dim)
+          for j in range(self.a_space.size**self.dim):
             m = 0
             a_index = np.zeros(self.dim, dtype = np.int64)
             a_ = np.zeros(self.dim)
@@ -221,6 +222,7 @@ class pde():
       #  print('iterated ' + str(n_iter)+';')
 
     return self.q_table
+
 
 def func(dim,NUM,MAX_ITER,args, q_table ,s_val):
   pde1 = pde(dim = dim, NUM = NUM, MAX_ITER = MAX_ITER,index = args, q_table =  q_table, s_val = s_val)
