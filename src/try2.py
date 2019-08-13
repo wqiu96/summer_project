@@ -190,29 +190,30 @@ class pde():
         x_d = np.zeros(self.dim)          
         s_index = np.zeros(self.dim, dtype = np.int64)
         Limit = 0
-        while k < self.dim:
-          x_d[k] = self.x_space[(i//(self.x_space.size**k))%self.x_space.size]
-          s_index[k] = (i//(self.x_space.size**k))%self.x_space.size
-          Limit += self.x_space[(i//(self.x_space.size**k))%self.x_space.size]**2
-          k += 1
-        if (np.min(s_index) == 0) or (np.max(s_index) == (self.x_space.size - 1)):
-          continue
-        for j in range(self.a_space.size**self.dim):
-          m = 0
-          a_index = np.zeros(self.dim, dtype = np.int64)
-          a_ = np.zeros(self.dim)
-          while m < self.dim:
-            a_index[m] = (i//(self.a_space.size**m))%self.a_space.size
-            a_[m] = self.a_space[(i//(self.a_space.size**m))%self.a_space.size]
-            m += 1
-          tp_,tp_1 = self.mdp_trans_prob_central(x_d, a_, self.sigma)
-          c1 = self.lambda_ + np.sum(self.diagonal(self.sigma))/(self.h**2)
-          res_plus,res_mins = self.Dif_array(s_index)
-          res = self.Dif_martix(s_index)
+        if self.index[0][0]<=s_index[0] and s_index[0]<= self.index[0][1] and self.index[1][0]<=s_index[1] and s_index[1] <= self.index[1][1]:
+          while k < self.dim:
+            x_d[k] = self.x_space[(i//(self.x_space.size**k))%self.x_space.size]
+            s_index[k] = (i//(self.x_space.size**k))%self.x_space.size
+            Limit += self.x_space[(i//(self.x_space.size**k))%self.x_space.size]**2
+            k += 1
+          if (np.min(s_index) == 0) or (np.max(s_index) == (self.x_space.size - 1)):
+            continue
+          for j in range(self.a_space.size**self.dim)
+            m = 0
+            a_index = np.zeros(self.dim, dtype = np.int64)
+            a_ = np.zeros(self.dim)
+            while m < self.dim:
+              a_index[m] = (i//(self.a_space.size**m))%self.a_space.size
+              a_[m] = self.a_space[(i//(self.a_space.size**m))%self.a_space.size]
+              m += 1
+            tp_,tp_1 = self.mdp_trans_prob_central(x_d, a_, self.sigma)
+            c1 = self.lambda_ + np.sum(self.diagonal(self.sigma))/(self.h**2)
+            res_plus,res_mins = self.Dif_array(s_index)
+            res = self.Dif_martix(s_index)
 
-          run_cost_ = (self.run_cost(x_d,a_))/c1
-          Lambda = 1 + self.lambda_*(self.h**2)/np.sum(self.diagonal(self.sigma))
-          self.q_table[a_index[0],a_index[1]] = (run_cost_ + np.sum(np.multiply(tp_[0],res_plus)) + np.sum(np.multiply(tp_[1],res_mins))+np.sum(np.multiply(res,tp_1[0])))/Lambda
+            run_cost_ = (self.run_cost(x_d,a_))/c1
+            Lambda = 1 + self.lambda_*(self.h**2)/np.sum(self.diagonal(self.sigma))
+            self.q_table[a_index[0],a_index[1]] = (run_cost_ + np.sum(np.multiply(tp_[0],res_plus)) + np.sum(np.multiply(tp_[1],res_mins))+np.sum(np.multiply(res,tp_1[0])))/Lambda
         self.s_val[s_index[0],s_index[1]] = np.min(self.q_table) #sync q_table with s_val
 
       n_iter += 1
