@@ -99,7 +99,7 @@ class HJB(Equation):
                                      self._num_time_interval]) * self._sqrt_delta_t
         x_sample = np.zeros([self._dim, self._num_time_interval + 1])
         x_sample[:, 0] = np.ones(self._dim) * self._x_init
-        for i in xrange(self._num_time_interval):
+        for i in range(self._num_time_interval):
             x_sample[:, i + 1] = x_sample[:, i] + self._sigma * dw_sample[:, i]
         return dw_sample, x_sample
 
