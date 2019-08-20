@@ -83,7 +83,7 @@ class AllenCahn(Equation):
         return y - torch.pow(y, 3)
 
     def g_tf(self, t, x):
-        return 0.5 / (1 + 0.2 * torch.sum(torch.pow(x, 2))
+        return 0.5 / (1 + 0.2 * torch.sum(torch.pow(x, 2)))
 
 
 class HJB(Equation):
