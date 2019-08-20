@@ -119,18 +119,17 @@ class PricingOption(Equation):
         self._rb = 0.06
         self._alpha = 1.0 / self._dim
 
-    def sample(self, num_sample):
-        dw_sample = normal.rvs(size=[num_sample,
-                                     self._dim,
+    def sample(self):
+        dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
-        x_sample = np.zeros([num_sample, self._dim, self._num_time_interval + 1])
-        x_sample[:, :, 0] = np.ones([num_sample, self._dim]) * self._x_init
+        x_sample = np.zeros([self._dim, self._num_time_interval + 1])
+        x_sample[:, 0] = np.ones([self._dim]) * self._x_init
         # for i in xrange(self._n_time):
         # 	x_sample[:, :, i + 1] = (1 + self._mu_bar * self._delta_t) * x_sample[:, :, i] + (
         # 		self._sigma * x_sample[:, :, i] * dw_sample[:, :, i])
         factor = np.exp((self._mu_bar-(self._sigma**2)/2)*self._delta_t)
-        for i in xrange(self._num_time_interval):
-            x_sample[:, :, i + 1] = (factor * np.exp(self._sigma * dw_sample[:, :, i])) * x_sample[:, :, i]
+        for i in range(self._num_time_interval):
+            x_sample[:, i + 1] = (factor * np.exp(self._sigma * dw_sample[:, i])) * x_sample[:, i]
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
@@ -157,15 +156,14 @@ class PricingDefaultRisk(Equation):
         self._vl = 70.0
         self._slope = (self._gammah - self._gammal) / (self._vh - self._vl)
 
-    def sample(self, num_sample):
-        dw_sample = normal.rvs(size=[num_sample,
-                                     self._dim,
+    def sample(self):
+        dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
-        x_sample = np.zeros([num_sample, self._dim, self._num_time_interval + 1])
-        x_sample[:, :, 0] = np.ones([num_sample, self._dim]) * self._x_init
-        for i in xrange(self._num_time_interval):
-            x_sample[:, :, i + 1] = (1 + self._mu_bar * self._delta_t) * x_sample[:, :, i] + (
-                self._sigma * x_sample[:, :, i] * dw_sample[:, :, i])
+        x_sample = np.zeros([self._dim, self._num_time_interval + 1])
+        x_sample[:, 0] = np.ones(self._dim) * self._x_init
+        for i in range(self._num_time_interval):
+            x_sample[:, i + 1] = (1 + self._mu_bar * self._delta_t) * x_sample[:, i] + (
+                self._sigma * x_sample[:, i] * dw_sample[:, i])
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
@@ -184,21 +182,20 @@ class BurgesType(Equation):
         self._y_init = 1 - 1.0 / (1 + np.exp(0 + np.sum(self._x_init) / self._dim))
         self._sigma = self._dim + 0.0
 
-    def sample(self, num_sample):
-        dw_sample = normal.rvs(size=[num_sample,
-                                     self._dim,
+    def sample(self):
+        dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
-        x_sample = np.zeros([num_sample, self._dim, self._num_time_interval + 1])
-        x_sample[:, :, 0] = np.ones([num_sample, self._dim]) * self._x_init
-        for i in xrange(self._num_time_interval):
-            x_sample[:, :, i + 1] = x_sample[:, :, i] + self._sigma * dw_sample[:, :, i]
+        x_sample = np.zeros([self._dim, self._num_time_interval + 1])
+        x_sample[:, 0] = np.ones([elf._dim) * self._x_init
+        for i in range(self._num_time_interval):
+            x_sample[:, i + 1] = x_sample[:, i] + self._sigma * dw_sample[:, i]
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
-        return (y - (2 + self._dim) / 2.0 / self._dim) * torch.sum(z, 1, keepdim =True)
+        return (y - (2 + self._dim) / 2.0 / self._dim) * torch.sum(z)
 
     def g_tf(self, t, x):
-        return 1 - 1.0 / (1 + torch.exp(t + torch.sum(x, 1, keepdim = True) / self._dim))
+        return 1 - 1.0 / (1 + torch.exp(t + torch.sum(x) / self._dim))
 
 
 class QuadraticGradients(Equation):
@@ -209,22 +206,21 @@ class QuadraticGradients(Equation):
         base = self._total_time + np.sum(np.square(self._x_init) / self._dim)
         self._y_init = np.sin(np.power(base, self._alpha))
 
-    def sample(self, num_sample):
-        dw_sample = normal.rvs(size=[num_sample,
-                                     self._dim,
+    def sample(self):
+        dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
-        x_sample = np.zeros([num_sample, self._dim, self._num_time_interval + 1])
-        x_sample[:, :, 0] = np.ones([num_sample, self._dim]) * self._x_init
-        for i in xrange(self._num_time_interval):
-            x_sample[:, :, i + 1] = x_sample[:, :, i] + dw_sample[:, :, i]
+        x_sample = np.zeros([self._dim, self._num_time_interval + 1])
+        x_sample[:, 0] = np.ones(self._dim) * self._x_init
+        for i in range(self._num_time_interval):
+            x_sample[:, i + 1] = x_sample[:, i] + dw_sample[:, i]
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
-        x_square = torch.sum(torch.pow(x,2), 1, keepdim = True)
+        x_square = torch.sum(torch.pow(x,2))
         base = self._total_time - t + x_square / self._dim
         base_alpha = torch.pow(base, self._alpha)
         derivative = self._alpha * torch.pow(base, self._alpha - 1) * torch.cos(base_alpha)
-        term1 = torch.sum(torch.pow(z,2), 1, keepdim = True)
+        term1 = torch.sum(torch.pow(z,2))
         term2 = -4.0 * (derivative ** 2) * x_square / (self._dim ** 2)
         term3 = derivative
         term4 = -0.5 * (
@@ -238,7 +234,7 @@ class QuadraticGradients(Equation):
 
     def g_tf(self, t, x):
         return torch.sin(
-            torch.pow(torch.sum(torch.pow(x,2), 1, keepdim = True) / self._dim, self._alpha))
+            torch.pow(torch.sum(torch.pow(x,2)) / self._dim, self._alpha))
 
 
 class ReactionDiffusion(Equation):
@@ -250,21 +246,20 @@ class ReactionDiffusion(Equation):
         self._y_init = 1 + self._kappa + np.sin(self._lambda * np.sum(self._x_init)) * np.exp(
             -self._lambda * self._lambda * self._dim * self._total_time / 2)
 
-    def sample(self, num_sample):
-        dw_sample = normal.rvs(size=[num_sample,
-                                     self._dim,
+    def sample(self):
+        dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
-        x_sample = np.zeros([num_sample, self._dim, self._num_time_interval + 1])
-        x_sample[:, :, 0] = np.ones([num_sample, self._dim]) * self._x_init
-        for i in xrange(self._num_time_interval):
-            x_sample[:, :, i + 1] = x_sample[:, :, i] + dw_sample[:, :, i]
+        x_sample = np.zeros([self._dim, self._num_time_interval + 1])
+        x_sample[:, 0] = np.ones(self._dim) * self._x_init
+        for i in range(self._num_time_interval):
+            x_sample[:, i + 1] = x_sample[:, i] + dw_sample[:, i]
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
         exp_term = torch.exp((self._lambda ** 2) * self._dim * (t - self._total_time) / 2)
-        sin_term = torch.sin(self._lambda * torch.sum(x, 1, keepdim = True))
+        sin_term = torch.sin(self._lambda * torch.sum(x))
         temp = y - self._kappa - 1 - sin_term * exp_term
         return torch.min(torch.ones(temp.shape), torch.pow(temp,2))
 
     def g_tf(self, t, x):
-        return 1 + self._kappa + torch.sin(self._lambda * torch.sum(x, 1, keepdim = True))
+        return 1 + self._kappa + torch.sin(self._lambda * torch.sum(x))
