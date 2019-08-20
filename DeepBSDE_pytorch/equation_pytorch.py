@@ -104,10 +104,10 @@ class HJB(Equation):
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
-        return -self._lambda * torch.sum(torch.pow(z,2), 1, keepdim=True)
+        return -self._lambda * torch.sum(torch.pow(z,2))
 
     def g_tf(self, t, x):
-        return torch.log((1 + torch.sum(torch.pow(x,2), 1, keepdim=True)) / 2)
+        return torch.log((1 + torch.sum(torch.pow(x,2))) / 2)
 
 
 class PricingOption(Equation):
