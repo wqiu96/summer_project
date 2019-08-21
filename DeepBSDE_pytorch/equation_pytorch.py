@@ -94,8 +94,12 @@ class HJB(Equation):
         #self._lambda = 1.0
         self._lambda = 1/2
     def sample(self):
-        dw_sample = normal.rvs(size=[self._dim,
-                                     self._num_time_interval]) * self._sqrt_delta_t
+        #dw_sample = normal.rvs(size=[self._dim,
+        #                             self._num_time_interval]) * self._sqrt_delta_t
+        dw_sample = normal.rvs(size=[2,
+                                     self._num_time_interval])[0:1,:] * self._sqrt_delta_t #just for 1-dim,in normal.rvs,we can't use size = 1
+        
+        
         x_sample = np.zeros([self._dim, self._num_time_interval + 1])
         x_sample[:, 0] = np.ones(self._dim) * self._x_init
         for i in range(self._num_time_interval):
