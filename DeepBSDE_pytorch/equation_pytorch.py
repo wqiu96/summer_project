@@ -93,15 +93,13 @@ class HJB(Equation):
         self._sigma = np.sqrt(2.0)
         #self._lambda = 1.0
         self._lambda = 1/2
-        self.miu = lambda x,t: -x/(1 + self._total_time - t)
     def sample(self):
         dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
         x_sample = np.zeros([self._dim, self._num_time_interval + 1])
         x_sample[:, 0] = np.ones(self._dim) * self._x_init
         for i in range(self._num_time_interval):
-            #x_sample[:, i + 1] = x_sample[:, i] + self._sigma * dw_sample[:, i]
-            x_sample[:, i + 1] = x_sample[:, i] + self.miu(x_sample[:, i],i*self._delta_t)*self._delta_t + self._sigma * dw_sample[:, i]
+            x_sample[:, i + 1] = x_sample[:, i] + self._sigma * dw_sample[:, i]
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
