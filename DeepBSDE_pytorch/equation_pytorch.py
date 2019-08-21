@@ -91,23 +91,24 @@ class HJB(Equation):
         super(HJB, self).__init__(dim, total_time, num_time_interval)
         self._x_init = np.zeros(self._dim)
         self._sigma = np.sqrt(2.0)
-        self._lambda = 1.0
-
+        #self._lambda = 1.0
+        self._lambda = 1/2
     def sample(self):
         dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
         x_sample = np.zeros([self._dim, self._num_time_interval + 1])
         x_sample[:, 0] = np.ones(self._dim) * self._x_init
         for i in range(self._num_time_interval):
-            x_sample[:, i + 1] = x_sample[:, i] + self._sigma * dw_sample[:, i]
+            #x_sample[:, i + 1] = x_sample[:, i] + self._sigma * dw_sample[:, i]
+            x_sample[:, i + 1] = x_sample[:, i] + self.miu(x_sample[:, i],i*self._delta_t)*self._delta_t + self._sigma * dw_sample[:, i]
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
         return -self._lambda * torch.sum(torch.pow(z,2))
 
     def g_tf(self, t, x):
-        return torch.log((1 + torch.sum(torch.pow(x,2))) / 2)
-
+        #return torch.log((1 + torch.sum(torch.pow(x,2))) / 2)
+        return (1/2)* torch.sum(torch.pow(x,2))
 
 class PricingOption(Equation):
     def __init__(self, dim, total_time, num_time_interval):
