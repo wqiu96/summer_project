@@ -256,7 +256,7 @@ class ReactionDiffusion(Equation):
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
-        exp_term = torch.exp(torch.tensor([(self._lambda ** 2) * self._dim * (t - self._total_time) / 2)])
+        exp_term = torch.exp(torch.tensor([(self._lambda ** 2) * self._dim * (t - self._total_time) / 2]))
         sin_term = torch.sin(self._lambda * torch.sum(x))
         temp = y - self._kappa - 1 - sin_term * exp_term
         return torch.min(torch.ones(temp.shape), torch.pow(temp,2))
