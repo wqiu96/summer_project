@@ -93,6 +93,7 @@ class HJB(Equation):
         self._sigma = np.sqrt(2.0)
         #self._lambda = 1.0
         self._lambda = 1/2
+        self.miu = lambda x,t: -x/(1 + self._total_time - t)
     def sample(self):
         dw_sample = normal.rvs(size=[self._dim,
                                      self._num_time_interval]) * self._sqrt_delta_t
