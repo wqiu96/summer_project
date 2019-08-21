@@ -133,12 +133,12 @@ class PricingOption(Equation):
         return dw_sample, x_sample
 
     def f_tf(self, t, x, y, z):
-        temp = torch.sum(z, 1, keepdim=True) / self._sigma
+        temp = torch.sum(z) / self._sigma
         return -self._rl * y - (self._mu_bar - self._rl) * temp + (
             (self._rb - self._rl) * F.relu(temp - y))
 
     def g_tf(self, t, x):
-        temp = torch.max(x, 1, keepdim = True)[0]
+        temp = torch.max(x)
         return F.relu(temp - 120) - 2 * F.relu(temp - 150)
 
 
@@ -172,7 +172,7 @@ class PricingDefaultRisk(Equation):
         return (-(1 - self._delta) * piecewise_linear - self._rate) * y
 
     def g_tf(self, t, x):
-        return torch.min(x, 1, keepdim = True)[0]
+        return torch.min(x)
 
 
 class BurgesType(Equation):
