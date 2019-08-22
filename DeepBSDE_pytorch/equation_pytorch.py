@@ -91,13 +91,13 @@ class HJB(Equation):
         super(HJB, self).__init__(dim, total_time, num_time_interval)
         self._x_init = np.zeros(self._dim)
         self._sigma = np.sqrt(2.0)
-        #self._lambda = 1.0
-        self._lambda = 1/2
+        self._lambda = 1.0
+        #self._lambda = 1/2
     def sample(self):
-        #dw_sample = normal.rvs(size=[self._dim,
-        #                             self._num_time_interval]) * self._sqrt_delta_t
-        dw_sample = normal.rvs(size=[2,
-                                     self._num_time_interval])[0:1,:] * self._sqrt_delta_t #just for 1-dim,in normal.rvs,we can't use size = 1
+        dw_sample = normal.rvs(size=[self._dim,
+                                     self._num_time_interval]) * self._sqrt_delta_t
+        #dw_sample = normal.rvs(size=[2,
+        #                             self._num_time_interval])[0:1,:] * self._sqrt_delta_t #just for 1-dim,in normal.rvs,we can't use size = 1
         
         
         x_sample = np.zeros([self._dim, self._num_time_interval + 1])
@@ -110,8 +110,8 @@ class HJB(Equation):
         return -self._lambda * torch.sum(torch.pow(z,2))
 
     def g_tf(self, t, x):
-        #return torch.log((1 + torch.sum(torch.pow(x,2))) / 2)
-        return (1/2)* torch.sum(torch.pow(x,2))
+        return torch.log((1 + torch.sum(torch.pow(x,2))) / 2)
+        #return (1/2)* torch.sum(torch.pow(x,2))
 
 class PricingOption(Equation):
     def __init__(self, dim, total_time, num_time_interval):
