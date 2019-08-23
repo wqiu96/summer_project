@@ -34,8 +34,8 @@ class AllenCahnConfig(Config):
 
 class HJBConfig(Config):
     # Y_0 is about 4.5901.
-    dim = 100
-    #dim = 1
+    #dim = 100
+    dim = 1
     total_time = 1.0
     num_time_interval = 20
     lr_boundaries = [400]
