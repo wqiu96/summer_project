@@ -78,11 +78,11 @@ class Pde:
         def term_cost(ix_s):
             return self.term_cost(i2s(*ix_s))
         
-        self.rate = self.dim/(self.dim+self.lam*(h_s**2))
+        rate = self.dim/(self.dim+self.lam*(h_s**2))
         out.update({
                 'run_cost': run_cost,
                 'term_cost': term_cost,
-                'rate': self.rate
+                'rate': rate
                 })
         #########
         
@@ -107,19 +107,19 @@ class Pde:
                     'dim': self.dim})
 
         
-        def bellman(self, ix, ia, v):
-            s = self.i2s(ix)
-            disc = self.rate
-            ix_next, pr_next,run_h = self.step(ix,ia)
+        def bellman(ix, ia, v):
+            s = i2s(ix)
+            disc = rate
+            ix_next, pr_next,run_h = step(ix,ia)
             lhs = v(torch.FloatTensor(s)); rhs = 0.
             #ipdb.set_trace()
-            if self.is_interior(ix):            
+            if is_interior(ix):            
                 rhs += run_h 
                 for ix1, pr1 in zip(ix_next, pr_next):
-                    rhs += pr1*v(torch.FloatTensor(self.i2s(ix1)))
+                    rhs += pr1*v(torch.FloatTensor(i2s(ix1)))
                 rhs *= disc
             else:
-                rhs = self.term_h(ix)
+                rhs = self.term_cost(ix)
             return (rhs - lhs)
         out.update({
                 'bellman': self.bellman
