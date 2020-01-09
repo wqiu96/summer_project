@@ -103,7 +103,8 @@ class Pde:
                 pr = pr_up+pr_dn
             
             return ix_next_s, pr, run_cost(ix_s,ix_a)
-        out.update({'step': step})
+        out.update({'step': step
+                   'dim': self.dim})
 
         
         def bellman(self, ix, ia, v):
@@ -120,6 +121,8 @@ class Pde:
             else:
                 rhs = self.term_h(ix)
             return (rhs - lhs)
+        
+           out.update({'bellman': bellman})
     
         return out
 
@@ -127,18 +130,18 @@ def solver(mdp, n_epoch = 500):
     ######### nn for value
     # Linear regression model
     value = nn.Sequential(
-        nn.Linear(mdp.dim, 2*mdp.dim+10),
+        nn.Linear(mdp['dim'], 2*mdp['dim']+10),
         nn.ReLU(),
-        nn.Linear(2*mdp.dim+10, 1),
+        nn.Linear(2*mdp['dim']+10, 1),
     )   
     print(value)
     
     #loss
     def tot_loss():
         out = 0.
-        for ix in deep_iter(*mdp.v_shape_):
-            ia = tuple([0]*len(ix))
-            out += mdp.bellman(ix,ia,value)**2
+        for ix in deep_iter(*mdp['v_shape']):
+            ia = tuple([0]*mdp['dim'])
+            out += mdp['bellman'](ix,ia,value)**2
         return out#/mdp.v_size_
     
     print_n = 10
