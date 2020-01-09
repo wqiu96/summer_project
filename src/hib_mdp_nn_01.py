@@ -108,15 +108,15 @@ class Pde:
 
         
         def bellman(ix, ia, v):
-            s = i2s(ix)
+            s = i2s(*ix)
             disc = rate
             ix_next, pr_next,run_h = step(ix,ia)
             lhs = v(torch.FloatTensor(s)); rhs = 0.
             #ipdb.set_trace()
-            if is_interior(ix):            
+            if is_interior(*ix):            
                 rhs += run_h 
                 for ix1, pr1 in zip(ix_next, pr_next):
-                    rhs += pr1*v(torch.FloatTensor(i2s(ix1)))
+                    rhs += pr1*v(torch.FloatTensor(i2s(*ix1)))
                 rhs *= disc
             else:
                 rhs = self.term_cost(ix)
