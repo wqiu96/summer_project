@@ -127,9 +127,9 @@ def solver(mdp, n_epoch = 500):
     ######### nn for value
     # Linear regression model
     value = nn.Sequential(
-        nn.Linear(mdp.n_dim_, 2*mdp.n_dim_+10),
+        nn.Linear(mdp.dim, 2*mdp.dim+10),
         nn.ReLU(),
-        nn.Linear(2*mdp.n_dim_+10, 1),
+        nn.Linear(2*mdp.dim+10, 1),
     )   
     print(value)
     
