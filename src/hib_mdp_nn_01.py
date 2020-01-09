@@ -18,7 +18,7 @@ class Pde:
             self,
             dim=1,
             lam=0.0,
-            drift = lambda s,a: [0.]*1,
+            drift = lambda s,a: np.array([0.]),
             run_cost = lambda s,a: -1.0,
             term_cost = lambda s: sum(map(lambda a: 0.5*a**2 - 0.5*a, s)),
             limit_s = 1.0, #l-infinity limit for state
@@ -98,8 +98,6 @@ class Pde:
             pr=[]
             if method == 'cfd':
                 b = self.drift(i2s(*ix_s), i2a(*ix_a))
-                print(b)
-                print(1+2.*h_s*b)
                 pr_up = ((1+2.*h_s*b)/self.dim/2.0).tolist()
                 pr_dn = ((1-2.*h_s*b)/self.dim/2.0).tolist()
                 pr = pr_up+pr_dn
