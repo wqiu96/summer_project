@@ -122,7 +122,7 @@ class Pde:
                 rhs = self.term_cost(ix)
             return (rhs - lhs)
         out.update({
-                'bellman': self.bellman
+                'bellman': bellman
                 })
     
         return out
