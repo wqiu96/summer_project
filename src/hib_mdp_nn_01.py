@@ -103,7 +103,7 @@ class Pde:
                 pr = pr_up+pr_dn
             
             return ix_next_s, pr, run_cost(ix_s,ix_a)
-        out.update({'step': step
+        out.update({'step': step,
                    'dim': self.dim})
 
         
