@@ -31,7 +31,7 @@ def run(self, s):
 Pde.run = run
 
 def term(self, s):
-    return sum(map(lambda a: (a-.5)**2, s))
+    return sum(map(lambda a: 0.5*a**2 - 0.5*a, s))
 Pde.term = term
 
 def is_interior(self, s):  #domain 
@@ -39,7 +39,7 @@ def is_interior(self, s):  #domain
 Pde.is_interior = is_interior
 
 def exact_soln(self, s):
-    return sum(map(lambda a: (a-.5)**2, s))
+    return sum(map(lambda a: 0.5*a**2 - 0.5*a, s))
 Pde.exact_soln= exact_soln
 
 
