@@ -122,7 +122,7 @@ class Pde:
                 rhs = self.term_h(ix)
             return (rhs - lhs)
         
-           out.update({'bellman': bellman})
+          out.update({'bellman': bellman})
     
         return out
 
