@@ -18,8 +18,8 @@ class Pde:
             self,
             dim=1,
             lam=0.0,
-            drift = lambda s,a: [0.]*self.dim,
-            run_cost = lambda s,a: float(-self.dim),
+            drift = lambda s,a: [0.]*dim,
+            run_cost = lambda s,a: float(-dim),
             term_cost = lambda s: sum(map(lambda a: 0.5*a**2 - 0.5*a, s)),
             limit_s = 1.0, #l-infinity limit for state
             limit_a = 0, #l-infinity limit for action
