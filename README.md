@@ -1,5 +1,6 @@
 # summer_project
-
+## Reconstruct based on OOP
+- code[-ipynb](src/Reconstruct.ipynb)
 ## Using Dynamic Programming to Solve PDE(CPU)
 - solve n-dimensions HJB function(Square boundary) [-ipynb](src/value_iter_dirichlet_2d_fin.ipynb)
 - solve n-dimensions HJB function(circular boundary) [-ipynb](src/value_iter_dirichlet_2d_fin_c.ipynb)
